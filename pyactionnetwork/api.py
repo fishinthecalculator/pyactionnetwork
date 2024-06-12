@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import logging
+
 import requests
 from urllib.parse import quote
+
+logger = logging.getLogger(__name__)
 
 
 class ActionNetworkApi:
@@ -27,8 +31,13 @@ class ActionNetworkApi:
             **kwargs
         )
 
-    def request_json(self, verb, url, json=None):
-        return self.request(verb, url, json=json).json()
+    def request_json(self, verb, url, json=None, quiet=False):
+        if not quiet:
+            logger.debug(f"{verb} {url} {json}")
+        r = self.request(verb, url, json=json)
+        if not quiet:
+            logger.debug(f"{r.status_code} {r.headers['content-type']} {r.text}")
+        return r.json()
 
     def refresh_config(self):
         """Get a new version of the base_url config."""
