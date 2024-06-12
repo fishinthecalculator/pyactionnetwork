@@ -15,7 +15,7 @@ class ActionNetworkApi:
         self.base_url = self.config.get('links', {}).get('self', 'https://actionnetwork.org/api/v2/')
         print(self.config['motd'])
 
-    def request_json(self, verb, url, json=None):
+    def request(self, verb, url, json=None):
         kwargs = {
             "headers": self.headers,
             "url": url
@@ -25,7 +25,10 @@ class ActionNetworkApi:
         return requests.request(
             verb,
             **kwargs
-        ).json()
+        )
+
+    def request_json(self, verb, url, json=None):
+        return self.request(verb, url, json=json).json()
 
     def refresh_config(self):
         """Get a new version of the base_url config."""
