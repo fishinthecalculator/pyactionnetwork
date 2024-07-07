@@ -94,7 +94,7 @@ class ActionNetworkApi:
         return self.request_json("GET", url=url)
 
     def create_person(self,
-                      email=None,
+                      email='',
                       phone=None,
                       given_name='',
                       family_name='',
@@ -140,25 +140,42 @@ class ActionNetworkApi:
         url = "{0}people/".format(self.base_url)
         payload = {
             'person': {
-                'family_name': family_name,
-                'given_name': given_name,
+                'custom_fields': custom_fields,
+            },
+            'add_tags': list(tags)
+        }
+
+        if family_name:
+            payload["person"].update({
+                'family_name': family_name
+            })
+
+        if given_name:
+            payload["person"].update({
+                'given_name': given_name
+            })
+
+        if address or city or state or country or postal_code:
+            payload["person"].update({
                 'postal_addresses': [{
                     'address_lines': list(address),
                     'locality': city,
                     'region': state,
                     'country': country,
                     'postal_code': postal_code
-                }],
-                'email_addresses': [{
-                    'address': email
-                }],
+                }]})
+
+        if phone:
+            payload["person"].update({
                 'phone_numbers': [{
                     'number': phone
-                }],
-                'custom_fields': custom_fields,
-            },
-            'add_tags': list(tags)
-        }
+                }]})
+
+        if email:
+            payload["person"].update({
+                'email_addresses': [{
+                    'address': email
+                }]})
 
         return self.request_json("POST", url=url, json=payload)
 
@@ -206,24 +223,41 @@ class ActionNetworkApi:
         """
         url = "{0}people/{1}".format(self.base_url, person_id)
         payload = {
-            'family_name': family_name,
-            'given_name': given_name,
-            'postal_addresses': [{
-                'address_lines': list(address),
-                'locality': city,
-                'region': state,
-                'country': country,
-                'postal_code': postal_code
-            }],
-            'email_addresses': [{
-                'address': email
-            }],
-            'phone_numbers': [{
-                'number': phone
-            }],
             'add_tags': list(tags),
             'custom_fields': custom_fields,
         }
+
+        if family_name:
+            payload.update({
+                'family_name': family_name
+            })
+
+        if given_name:
+            payload.update({
+                'given_name': given_name
+            })
+
+        if address or city or state or country or postal_code:
+            payload.update({
+                'postal_addresses': [{
+                    'address_lines': list(address),
+                    'locality': city,
+                    'region': state,
+                    'country': country,
+                    'postal_code': postal_code
+                }]})
+
+        if phone:
+            payload.update({
+                'phone_numbers': [{
+                    'number': phone
+                }]})
+
+        if email:
+            payload.update({
+                'email_addresses': [{
+                    'address': email
+                }]})
 
         return self.request_json("PUT", url=url, json=payload)
 
