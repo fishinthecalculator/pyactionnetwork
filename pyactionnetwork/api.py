@@ -36,7 +36,11 @@ class ActionNetworkApi:
             logger.debug(f"{verb} {url} {json}")
         r = self.request(verb, url, json=json)
         if not quiet:
-            logger.debug(f"{r.status_code} {r.headers['content-type']} {r.text}")
+            if 'content-type' in r.headers.keys():
+                content_type = ' ' + r.headers['content-type']
+            else:
+                content_type = ''
+            logger.debug(f"{r.status_code}{content_type} {r.text}")
         return r.json()
 
     def refresh_config(self):
@@ -227,6 +231,7 @@ class ActionNetworkApi:
             'custom_fields': custom_fields,
         }
 
+<<<<<<< HEAD
         if family_name:
             payload.update({
                 'family_name': family_name
@@ -259,6 +264,8 @@ class ActionNetworkApi:
                     'address': email
                 }]})
 
+=======
+>>>>>>> requests
         return self.request_json("PUT", url=url, json=payload)
 
     def search(self, resource, operator, term):
