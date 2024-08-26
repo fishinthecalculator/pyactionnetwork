@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import requests
-
-from .models import Donation, Tag, Tagging
+from pyactionnetwork.models import Donation, Tag, Tagging
 
 
 def get_all_resource(resource, cls, api, url, resources=[]):
