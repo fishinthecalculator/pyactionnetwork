@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import requests
-
-from .models import Donation
+from pyactionnetwork.models import Donation
 
 
 def get_all_donations(api=None, donations=None, url="https://actionnetwork.org/api/v2/donations"):
