@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import os
 import logging
 
 import requests
@@ -19,9 +20,10 @@ class ActionNetworkApi:
         self.base_url = self.config.get('links', {}).get('self', 'https://actionnetwork.org/api/v2/')
         print(self.config['motd'])
 
-    def request(self, verb, url, json=None):
+    def request(self, verb, url, timeout=5, json=None):
         kwargs = {
             "headers": self.headers,
+            "timeout": os.environ.get("PYACTIONNETWORK_TIMEOUT", timeout),
             "url": url
         }
         if json:
@@ -231,6 +233,7 @@ class ActionNetworkApi:
             'custom_fields': custom_fields,
         }
 
+<<<<<<< HEAD
         if family_name:
             payload.update({
                 'family_name': family_name
@@ -263,6 +266,8 @@ class ActionNetworkApi:
                     'address': email
                 }]})
 
+=======
+>>>>>>> requests
         return self.request_json("PUT", url=url, json=payload)
 
     def search(self, resource, operator, term):
