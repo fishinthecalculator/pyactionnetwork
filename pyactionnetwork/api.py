@@ -233,7 +233,6 @@ class ActionNetworkApi:
             'custom_fields': custom_fields,
         }
 
-<<<<<<< HEAD
         if family_name:
             payload.update({
                 'family_name': family_name
@@ -266,8 +265,6 @@ class ActionNetworkApi:
                     'address': email
                 }]})
 
-=======
->>>>>>> requests
         return self.request_json("PUT", url=url, json=payload)
 
     def search(self, resource, operator, term):
